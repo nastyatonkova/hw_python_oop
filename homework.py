@@ -3,16 +3,20 @@ from dataclasses import dataclass, asdict
 
 @dataclass
 class InfoMessage:
-    """Informational message about training."""
-    #  class name of training
+    """Informational message about training.
+
+    Class properties:
+    training_type -- class name of training
+    duration -- duration of training (h)
+    distance -- distance covered during training (km)
+    speed -- avg speed during training (km/h)
+    calories -- spent calories during training
+    """
+
     training_type: str
-    #  duration of training in hours
     duration: float
-    #  distance covered during training in km
     distance: float
-    #  avg speed during training
     speed: float
-    #  spent calories during training
     calories: float
     #  message string with output of training
     message: str = ('Тип тренировки: {training_type}; '
@@ -23,46 +27,45 @@ class InfoMessage:
                     )
 
     def get_message(self) -> str:
+        """Return formated training info message."""
         return self.message.format(**asdict(self))
 
 
 class Training:
-    """Base class of training."""
-    # distance covered by sportsmen in one step (m.)
+    """Base class of training.
+
+    Constants:
+    LEN_STEP -- distance covered by sportsmen in one step (m)
+    M_IN_KM -- constant turning meters in kilometrs
+    MIN_IN_HOUR -- minutes in hour
+
+    Class properties:
+    action -- number of actions (steps or padles)
+    duration -- duration of training (h)
+    weight -- weight of sportsman (kg)
+    """
+
     LEN_STEP: float = 0.65
-    # constant turning meters in kilometrs
     M_IN_KM: float = 1000
-    # minutes in hour
     MIN_IN_HOUR: float = 60
 
-    def __init__(self,
-                 # number of actions (steps or padles)
-                 action: int,
-                 # duration of training (hours)
-                 duration: float,
-                 # weight of sportsman (kilogramms)
-                 weight: float,
-                 ) -> None:
+    def __init__(self, action: int, duration: float, weight: float) -> None:
         self.action = action
         self.duration = duration
         self.weight = weight
 
-    # return distance covered by sportsman during training (km.)
     def get_distance(self) -> float:
-        """Become distance in kilometrs."""
+        """Distance covered by sportsman during training (km)."""
         return self.action * self.LEN_STEP / self.M_IN_KM
 
-    # return mean speed of movement during training (km/h)
     def get_mean_speed(self) -> float:
-        """Return mean speed of movement."""
+        """Return mean speed of movement during training (km/h)."""
         return self.get_distance() / self.duration
 
-    # return amount of calories spent during training
     def get_spent_calories(self) -> float:
-        """Return amount of calories."""
+        """Return amount of calories during training."""
         pass
 
-    # return object type class InfoMessage
     def show_training_info(self) -> InfoMessage:
         """Return informational message about done training."""
         return InfoMessage(
@@ -75,19 +78,20 @@ class Training:
 
 
 class Running(Training):
-    """Training: run."""
+    """Training: run.
+
+    Constants:
+    RUN_COEFF_CAL_1 -- constant coefficient for calculating calories
+    RUN_COEFF_CAL_2 -- constant coefficient for calculating calories
+
+    Class properties:
+    action -- number of actions (steps or padles)
+    duration -- duration of training (h)
+    weight -- weight of sportsman (kg)
+    """
+
     RUN_COEFF_CAL_1: float = 18
     RUN_COEFF_CAL_2: float = 20
-
-    def __init__(self,
-                 # number of actions (steps)
-                 action: int,
-                 # duration of training (hours)
-                 duration: float,
-                 # weight of sportsman (kilogramms)
-                 weight: float,
-                 ) -> None:
-        super().__init__(action, duration, weight)
 
     # return amount of calories spent during running
     def get_spent_calories(self) -> float:
@@ -98,24 +102,26 @@ class Running(Training):
 
 
 class SportsWalking(Training):
-    """Training: sports walking."""
+    """Training: sports walking.
+
+    Constants:
+    WLK_COEFF_CAL_1 -- constant coefficient for calculating calories
+    WLK_COEFF_CAL_2 -- constant coefficient for calculating calories
+
+    Class properties:
+    action -- number of actions (steps or padles)
+    duration -- duration of training (h)
+    weight -- weight of sportsman (kg)
+    height -- heigh of sportsman (cm)
+    """
+
     WLK_COEFF_CAL_1: float = 0.035
     WLK_COEFF_CAL_2: float = 0.029
 
-    def __init__(self,
-                 # nubmer of actions (steps)
-                 action: int,
-                 # duration of training (hours)
-                 duration: float,
-                 # weight of sportsman (kilogramms)
-                 weight: float,
-                 # height of sportsman (centimetrs)
-                 height: float,
-                 ) -> None:
+    def __init__(self, action, duration, weight, height: float) -> None:
         super().__init__(action, duration, weight)
         self.height = height
 
-    # return amount of calories spent during sports walking
     def get_spent_calories(self) -> float:
         """Return amount of calories while sports walking."""
         return ((self.WLK_COEFF_CAL_1 * self.weight
@@ -125,34 +131,36 @@ class SportsWalking(Training):
 
 
 class Swimming(Training):
-    # distance covered by sportsman with one padle during swimming
+    """Training: swimming.
+
+    Constants:
+    LEN_STEP -- distance covered by sportsman with one padle during swimming
+    SWM_COEFF_CAL_1 -- constant coefficient for calculating calories
+    SWM_COEFF_CAL_2 -- constant coefficient for calculating calories
+
+    Class properties:
+    action -- number of actions (steps or padles)
+    duration -- duration of training (h)
+    weight -- weight of sportsman (kg)
+    length_pool -- lenght of swimming pool (m)
+    count_pool -- number of swim laps made by sportsman
+    """
+
     LEN_STEP: float = 1.38
     SWM_COEFF_CAL_1: float = 1.1
     SWM_COEFF_CAL_2: float = 2
-    """Training: swimming."""
-    def __init__(self,
-                 # nubmer of actions (padles)
-                 action: int,
-                 # duration of training (hours)
-                 duration: float,
-                 # weight of sportsman (kilogramms)
-                 weight: float,
-                 # lenght of swimming pool (meters)
-                 length_pool: int,
-                 # number of swim laps made by sportsman
-                 count_pool: int,
-                 ) -> None:
+
+    def __init__(self, action, duration, weight,
+                 length_pool: int, count_pool: int) -> None:
         super().__init__(action, duration, weight)
         self.length_pool = length_pool
         self.count_pool = count_pool
 
-    # return mean speed of movement during training (km/h)
     def get_mean_speed(self) -> float:
-        """Return mean speed while swimming."""
+        """Return mean speed while swimming (km/h)."""
         return (self.length_pool * self.count_pool
                 / self.M_IN_KM / self.duration)
 
-    # return amount of calories spent during sports swimming
     def get_spent_calories(self) -> float:
         """Return amount of calories while swimming."""
         return ((self.get_mean_speed() + self.SWM_COEFF_CAL_1)
@@ -163,7 +171,6 @@ def read_package(workout_type: str, data: list) -> Training:
     """Read data from sensors."""
     #  define dict with workout_type and corresponding training class
     workout_dict = {'SWM': Swimming, 'RUN': Running, 'WLK': SportsWalking}
-
     #  define class name
     cls_name = workout_dict[workout_type]
     #  create instance of training class
