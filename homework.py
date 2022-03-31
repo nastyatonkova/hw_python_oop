@@ -1,4 +1,5 @@
 from dataclasses import dataclass, asdict
+from typing import ClassVar
 
 
 @dataclass
@@ -13,22 +14,22 @@ class InfoMessage:
     calories -- spent calories during training
     """
 
+    #  message string with output of training
+    MESSAGE: ClassVar[str] = ('Тип тренировки: {training_type}; '
+                              'Длительность: {duration:.3f} ч.; '
+                              'Дистанция: {distance:.3f} км; '
+                              'Ср. скорость: {speed:.3f} км/ч; '
+                              'Потрачено ккал: {calories:.3f}.'
+                              )
     training_type: str
     duration: float
     distance: float
     speed: float
     calories: float
-    #  message string with output of training
-    message: str = ('Тип тренировки: {training_type}; '
-                    'Длительность: {duration:.3f} ч.; '
-                    'Дистанция: {distance:.3f} км; '
-                    'Ср. скорость: {speed:.3f} км/ч; '
-                    'Потрачено ккал: {calories:.3f}.'
-                    )
 
     def get_message(self) -> str:
         """Return formated training info message."""
-        return self.message.format(**asdict(self))
+        return self.MESSAGE.format(**asdict(self))
 
 
 class Training:
