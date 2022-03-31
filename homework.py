@@ -182,6 +182,11 @@ def read_package(workout_type: str, data: list) -> Training:
         RUNNING: Running,
         SPORTSWALKING: SportsWalking
     }
+    #  check if key exists in workout_dict
+    if workout_type not in workout_dict:
+        raise ValueError(f'WRONG value of workout_type: key {workout_type} '
+                         f'does not exist in workout_dict, available keys: '
+                         f'{workout_dict.keys()}')
     #  define class name
     cls_name = workout_dict[workout_type]
     #  create instance of training class
