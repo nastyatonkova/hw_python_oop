@@ -20,11 +20,11 @@ class InfoMessage:
     """
 
     #  message string with output of training
-    MESSAGE: ClassVar[str] = ('Тип тренировки: {training_type}; '
-                              'Длительность: {duration:.3f} ч.; '
+    MESSAGE: ClassVar[str] = ('Training type: {training_type}; '
+                              'Duration: {duration:.3f} ч.; '
                               'Дистанция: {distance:.3f} км; '
-                              'Ср. скорость: {speed:.3f} км/ч; '
-                              'Потрачено ккал: {calories:.3f}.'
+                              'Mean speed: {speed:.3f} км/ч; '
+                              'Spend calories: {calories:.3f}.'
                               )
     training_type: str
     duration: float
