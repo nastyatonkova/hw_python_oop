@@ -1,5 +1,10 @@
 from dataclasses import dataclass, asdict
-from typing import ClassVar
+from typing import ClassVar, Dict, Type
+
+#  define const for training type
+SWIMMING: str = 'SWM'
+RUNNING: str = 'RUN'
+SPORTSWALKING: str = 'WLK'
 
 
 @dataclass
@@ -66,7 +71,7 @@ class Training:
     def get_spent_calories(self) -> float:
         """Return amount of calories during training."""
         raise NotImplementedError(
-            'Define get_spent_calories in class %s.' % (self.__class__.__name__))
+            'Define get_spent_calories in %s.' % (self.__class__.__name__))
 
     def show_training_info(self) -> InfoMessage:
         """Return informational message about done training."""
@@ -172,7 +177,11 @@ class Swimming(Training):
 def read_package(workout_type: str, data: list) -> Training:
     """Read data from sensors."""
     #  define dict with workout_type and corresponding training class
-    workout_dict = {'SWM': Swimming, 'RUN': Running, 'WLK': SportsWalking}
+    workout_dict: Dict[str, Type[Training]] = {
+        SWIMMING: Swimming,
+        RUNNING: Running,
+        SPORTSWALKING: SportsWalking
+    }
     #  define class name
     cls_name = workout_dict[workout_type]
     #  create instance of training class
