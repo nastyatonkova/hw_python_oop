@@ -1,4 +1,4 @@
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from typing import ClassVar, Dict, Type
 
 #  define const for training type
