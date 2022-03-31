@@ -71,7 +71,7 @@ class Training:
     def get_spent_calories(self) -> float:
         """Return amount of calories during training."""
         raise NotImplementedError(
-            'Define get_spent_calories in %s.' % (self.__class__.__name__))
+            f'Define get_spent_calories in class {self.__class__.__name__}')
 
     def show_training_info(self) -> InfoMessage:
         """Return informational message about done training."""
@@ -205,7 +205,7 @@ def main(training: Training) -> None:
 
 if __name__ == '__main__':
     packages = [
-        ('SWM1', [720, 1, 80, 25, 40]),
+        ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
     ]
