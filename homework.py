@@ -186,7 +186,8 @@ def read_package(workout_type: str, data: list) -> Training:
     if workout_type not in workout_dict:
         raise ValueError(f'WRONG value of workout_type: key {workout_type} '
                          f'does not exist in workout_dict, available keys: '
-                         f'{workout_dict.keys()}')
+                         f'{list(workout_dict)}')
+
     #  define class name
     cls_name = workout_dict[workout_type]
     #  create instance of training class
@@ -204,7 +205,7 @@ def main(training: Training) -> None:
 
 if __name__ == '__main__':
     packages = [
-        ('SWM', [720, 1, 80, 25, 40]),
+        ('SWM1', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
     ]
